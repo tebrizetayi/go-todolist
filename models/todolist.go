@@ -1,8 +1,8 @@
 package models
 
 type TodoItem struct {
-	MyGormModel,
-	Title string `sql:"type:varchar(254);not null"`
+	MyGormModel
+	Title       string `sql:"type:varchar(254);not null"`
 	Description string `sql:"type:varchar(254);"`
 	Done        bool
 	UserID      int `sql:"type:int;not null"`
