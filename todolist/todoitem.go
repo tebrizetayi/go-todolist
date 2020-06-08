@@ -10,3 +10,21 @@ func (s *Service) CreateTodoItem(user *models.User, title, description string) (
 	}
 	return todoitem, nil
 }
+
+func (s *Service) GetTodoItemsByUser(user models.User) ([]*models.TodoItem, error) {
+	var todoItems []*models.TodoItem
+
+	if err := s.db.Where(&models.TodoItem{UserID: user.ID}).Find(&todoItems).Error; err != nil {
+		return nil, err
+	}
+	return todoItems, nil
+}
+
+func (s *Service) GetAllTodoItems() ([]*models.TodoItem, error) {
+	var todoItems []*models.TodoItem
+
+	if err := s.db.Find(&todoItems).Error; err != nil {
+		return nil, err
+	}
+	return todoItems, nil
+}

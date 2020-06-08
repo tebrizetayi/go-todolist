@@ -5,7 +5,6 @@ import (
 	"go-todolist/cmd"
 	"go-todolist/models"
 	"go-todolist/todolist"
-	"time"
 )
 
 func main() {
@@ -17,7 +16,7 @@ func main() {
 
 	service := todolist.NewService(config, db)
 
-	user, err := service.CreateUser(fmt.Sprintf("johndoe%d", time.Now().UnixNano()), "John", "Atayi", "123456")
+	/*user, err := service.CreateUser(fmt.Sprintf("johndoe%d", time.Now().UnixNano()), "John", "Atayi", "123456")
 
 	if err != nil {
 		panic(err)
@@ -35,6 +34,18 @@ func main() {
 	if err != nil {
 		panic(todoitem)
 	}
-	fmt.Print(todoitem)
+	fmt.Print(todoitem)*/
 
+	users, err := service.GetAllUser()
+
+	for i := 0; i < len(users); i++ {
+		fmt.Println(users[i])
+	}
+
+	user := models.User{MyGormModel: models.MyGormModel{ID: 38}}
+
+	todoItems, err := service.GetTodoItemsByUser(user)
+	for i := 0; i < len(todoItems); i++ {
+		fmt.Println(todoItems[i])
+	}
 }
