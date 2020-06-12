@@ -55,3 +55,16 @@ func (suite *TodoListTestSuite) TestCreateUser() {
 		assert.Equal(suite.T(), "Johndoe", user.Username)
 	}
 }
+
+func (suite *TodoListTestSuite) TestGetAllUsers() {
+	var (
+		userCount int
+		users     []*models.User
+	)
+	for i := 0; i < userCount; i++ {
+		_, _ = suite.service.CreateUser("johndoe"+string(i), "john", "doe", "123456")
+	}
+
+	users, _ = suite.service.GetAllUsers()
+	assert.Equal(suite.T(), userCount, len(users))
+}
