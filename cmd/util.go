@@ -3,7 +3,6 @@ package cmd
 import (
 	"go-todolist/config"
 	"go-todolist/database"
-	"go-todolist/models"
 
 	"github.com/jinzhu/gorm"
 )
@@ -17,14 +16,6 @@ func InitConfigDB() (*config.Config, *gorm.DB, error) {
 	db, err := database.NewDatabase(cnf)
 	if err != nil {
 		return nil, nil, err
-	}
-
-	//Creating Tables
-	if !db.HasTable(&models.User{}) {
-		db.CreateTable(&models.User{})
-	}
-	if !db.HasTable(&models.TodoItem{}) {
-		db.CreateTable(&models.TodoItem{})
 	}
 
 	return cnf, db, nil
