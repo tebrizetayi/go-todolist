@@ -25,7 +25,7 @@ var testCnf = &Config{
 		MaxIdleConns: 5,
 		MaxOpenConns: 5,
 	},
-	IsDevelopment: true,
+	IsDevelopment: false,
 }
 
 func NewConfig() *Config {
