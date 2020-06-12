@@ -1,13 +1,19 @@
 package database
 
 import (
+	"errors"
 	"fmt"
 	"go-todolist/config"
+	"go-todolist/models"
 
 	"github.com/jinzhu/gorm"
 
 	// Drivers
 	_ "github.com/lib/pq"
+)
+
+var (
+	ErrDatabaseNotConnected = errors.New("There is no connection to database!")
 )
 
 func NewDatabase(cnf *config.Config) (*gorm.DB, error) {
@@ -38,9 +44,29 @@ func NewDatabase(cnf *config.Config) (*gorm.DB, error) {
 		// Database logging
 		db.LogMode(cnf.IsDevelopment)
 
+		if err = CreateTables(db); err != nil {
+			return nil, err
+		}
 		return db, nil
 	}
 
 	// Database type not supported
 	return nil, fmt.Errorf("Database type %s not suppported", cnf.Database.Type)
+}
+
+func CreateTables(db *gorm.DB) error {
+
+	if db == nil {
+		return ErrDatabaseNotConnected
+	}
+
+	//Creating Tables
+	if !db.HasTable(&models.User{}) {
+		db.CreateTable(&models.User{})
+	}
+	if !db.HasTable(&models.TodoItem{}) {
+		db.CreateTable(&models.TodoItem{})
+	}
+
+	return nil
 }
