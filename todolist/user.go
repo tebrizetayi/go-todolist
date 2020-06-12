@@ -11,7 +11,7 @@ func (s *Service) CreateUser(username, firstname, lastname, password string) (*m
 	return user, nil
 }
 
-func (s *Service) GetAllUser() ([]*models.User, error) {
+func (s *Service) GetAllUsers() ([]*models.User, error) {
 	var users []*models.User
 	if err := s.db.Find(&users).Error; err != nil {
 		return nil, err

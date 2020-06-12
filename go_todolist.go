@@ -36,7 +36,7 @@ func main() {
 	}
 	fmt.Print(todoitem)*/
 
-	users, err := service.GetAllUser()
+	users, err := service.GetAllUsers()
 
 	for i := 0; i < len(users); i++ {
 		fmt.Println(users[i])

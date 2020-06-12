@@ -1,7 +1,11 @@
 package services
 
 import (
+	"go-todolist/config"
 	"go-todolist/todolist"
+	"reflect"
+
+	"github.com/jinzhu/gorm"
 )
 
 func init() {
@@ -9,8 +13,7 @@ func init() {
 }
 
 var (
-
-	TodolistService Todolist.ServiceInterface
+	TodolistService todolist.ServiceInterface
 )
 
 // UseTodolistService sets the Todolist service
@@ -18,18 +21,15 @@ func UseTodolistService(o todolist.ServiceInterface) {
 	TodolistService = o
 }
 
-
 // Init starts up all services
 func Init(cnf *config.Config, db *gorm.DB) error {
 
 	if nil == reflect.TypeOf(TodolistService) {
-		TodolistService = Todolist.NewService(cnf, db)
+		TodolistService = todolist.NewService(cnf, db)
 	}
 
 	return nil
 }
 
 // Close closes any open services
-func Close() {
-
-}
+func Close() {}
