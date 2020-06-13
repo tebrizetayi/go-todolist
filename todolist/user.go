@@ -1,8 +1,10 @@
 package todolist
 
 import (
+	"errors"
 	"go-todolist/models"
 	pass "go-todolist/util/password"
+	"strings"
 )
 
 func (s *Service) CreateUser(username, firstname, lastname, password string) (*models.User, error) {
@@ -13,6 +15,9 @@ func (s *Service) CreateUser(username, firstname, lastname, password string) (*m
 	}
 	user.Password = string(passwordHashed)
 
+	if s.UserExists(username) {
+		return nil, errors.New("Username taken")
+	}
 	if err := s.db.Create(user).Error; err != nil {
 		return nil, err
 	}
@@ -25,4 +30,21 @@ func (s *Service) GetAllUsers() ([]*models.User, error) {
 		return nil, err
 	}
 	return users, nil
+}
+
+func (s *Service) FindUserByUsername(username string) (*models.User, error) {
+	user := new(models.User)
+	notFound := s.db.Where("username = LOWER(?)", strings.ToLower(username)).First(user).RecordNotFound()
+
+	// Not found
+	if notFound {
+		return nil, errors.New("User not found")
+	}
+
+	return user, nil
+}
+
+func (s *Service) UserExists(username string) bool {
+	_, err := s.FindUserByUsername(username)
+	return err == nil
 }

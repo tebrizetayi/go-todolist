@@ -41,10 +41,10 @@ func (suite *TodoListTestSuite) TestCreateUser() {
 
 	// Test username case insensitivity
 	user, err = suite.service.CreateUser(
-		"Johndoe", // username
-		"John",    // firstname
-		"Doe",     // lastname
-		"123456",  // password
+		"Johndoe1", // username
+		"John",     // firstname
+		"Doe",      // lastname
+		"123456",   // password
 	)
 
 	// Error should be nil
@@ -52,7 +52,7 @@ func (suite *TodoListTestSuite) TestCreateUser() {
 
 	// Correct user object should be returned
 	if assert.NotNil(suite.T(), user) {
-		assert.Equal(suite.T(), "Johndoe", user.Username)
+		assert.Equal(suite.T(), "Johndoe1", user.Username)
 	}
 }
 
