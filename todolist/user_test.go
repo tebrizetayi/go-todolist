@@ -68,3 +68,59 @@ func (suite *TodoListTestSuite) TestGetAllUsers() {
 	users, _ = suite.service.GetAllUsers()
 	assert.Equal(suite.T(), userCount, len(users))
 }
+
+func (suite *TodoListTestSuite) TestDeleteUser() {
+	var (
+		user *models.User
+		err  error
+	)
+
+	// We try to insert a unique user
+	user, err = suite.service.CreateUser(
+		"johndoe", // username
+		"John",    // firstname
+		"Doe",     // lastname
+		"123456",  // password
+	)
+
+	err = suite.service.DeleteUser(user)
+
+	// Error should be nil
+	assert.Nil(suite.T(), err)
+
+	user, err = suite.service.FindUserByUsername(user.Username)
+
+	// Error should not be nil
+	assert.NotNil(suite.T(), err)
+
+	// Error should not be nil and user should be nil
+	if assert.NotNil(suite.T(), err) {
+		assert.Nil(suite.T(), user)
+	}
+}
+
+func (suite *TodoListTestSuite) TestUpdateUser() {
+	var (
+		user *models.User
+		err  error
+	)
+
+	// We try to insert a unique user
+	user, err = suite.service.CreateUser(
+		"johndoe", // username
+		"John",    // firstname
+		"Doe",     // lastname
+		"123456",  // password
+	)
+
+	newLastName := "UpdatedDoe"
+	user.Lastname = newLastName
+	suite.service.UpdateUser(user)
+
+	user, err = suite.service.FindUserByUsername(user.Username)
+
+	// Error should not be nil and user should be nil
+	if assert.Nil(suite.T(), err) {
+		assert.Equal(suite.T(), newLastName, user.Lastname)
+	}
+}

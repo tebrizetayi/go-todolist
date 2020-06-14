@@ -10,4 +10,8 @@ type ServiceInterface interface {
 	FindUserByUsername(username string) (*models.User, error)
 	GetTodoItemsByUser(user models.User) ([]*models.TodoItem, error)
 	GetAllTodoItems() ([]*models.TodoItem, error)
+	DeleteUser(user *models.User) error
+	DeleteTodoItem(todoItem *models.TodoItem) error
+	UpdateUser(user *models.User) (*models.User, error)
+	UpdateTodoItem(todoItem *models.TodoItem) (*models.TodoItem, error)
 }

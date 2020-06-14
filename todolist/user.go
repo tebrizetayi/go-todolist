@@ -48,3 +48,19 @@ func (s *Service) UserExists(username string) bool {
 	_, err := s.FindUserByUsername(username)
 	return err == nil
 }
+
+func (s *Service) UpdateUser(user *models.User) (*models.User, error) {
+
+	if err := s.db.Save(&user).Error; err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
+func (s *Service) DeleteUser(user *models.User) error {
+	if err := s.db.Delete(&user).Error; err != nil {
+		return err
+	}
+	return nil
+}
